@@ -1,0 +1,55 @@
+{
+  "name": "fncotest",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "electron": "electron main.cjs",
+    "all": "concurrently \"npm run dev\" \"npm run electron\"",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "pack": "npm run build && electron-builder",
+    "pack:mac": "npm run build && concurrently \"electron-builder --mac --x64\" \"electron-builder --mac --arm64\""
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react-swc": "^3.9.0",
+    "concurrently": "^9.1.2",
+    "electron": "^36.1.0",
+    "electron-builder": "^26.0.12",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "vite": "^6.3.5"
+  },
+  "main": "main.cjs",
+  "build": {
+    "appId": "com.fnco.app",
+    "productName": "FncoApp",
+    "files": [
+      "dist",
+      "main.cjs"
+    ],
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.png"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "build/icon.png"
+    }
+  }
+}
