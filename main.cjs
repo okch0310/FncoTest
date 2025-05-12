@@ -11,12 +11,14 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
+      devTools: true, // 개발자 도구 활성화
     },
   });
 
   if (isDev) {
     // 개발 서버에 연결
     win.loadURL("http://localhost:5173");
+    win.webContents.openDevTools(); // 개발 모드에서 개발자 도구 자동 실행
   } else {
     // 배포용: vite build 결과물 로드
     const indexPath = path.join(__dirname, "dist", "index.html");
@@ -35,6 +37,14 @@ function createWindow() {
       console.error("index.html not found at:", indexPath);
     }
   }
+
+  // 개발자 도구 단축키 설정
+  win.webContents.on("before-input-event", (event, input) => {
+    if (input.key === "F12") {
+      win.webContents.toggleDevTools();
+      event.preventDefault();
+    }
+  });
 
   win.webContents.on("did-fail-load", (event, errorCode, errorDescription) => {
     console.error("Failed to load:", errorCode, errorDescription);
